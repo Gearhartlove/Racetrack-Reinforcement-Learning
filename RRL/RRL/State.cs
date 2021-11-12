@@ -23,6 +23,12 @@ namespace RRL
         bool isStartState;
         bool isFinishState;
 
+        public State(bool _isStart, bool _isFinish)
+        {
+            isStartState = _isStart;
+            isFinishState = _isFinish;
+        }
+
         /// <summary>
         /// Applies X and Y acceleration changes to this state.
         /// </summary>
@@ -83,7 +89,7 @@ namespace RRL
         /// <param name="_xChange"></param>
         /// <param name="_yChange"></param>
         /// <returns></returns>
-        public bool CheckChange(int _xChange, int _yChange)
+        public bool CheckVelocity(int _xChange, int _yChange)
         {
             bool hasValidVelocity = true;
 
@@ -124,6 +130,15 @@ namespace RRL
             }
 
             return hasValidVelocity;
+        }
+
+        /// <summary>
+        /// Restets the X and Y velocity
+        /// </summary>
+        void ResetVelocity()
+        {
+            xtVelocity = 0;
+            ytVelocity = 0;
         }
     }
 }
