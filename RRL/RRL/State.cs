@@ -5,6 +5,9 @@ namespace RRL
 {
     public class State
     {
+        // Random class for implementing randomness
+        Random random = new Random();
+
         // X and Y location at current time
         int xtLocation;
         int ytLocation;
@@ -27,6 +30,16 @@ namespace RRL
         /// <param name="_yAcceleration"></param>
         public void ApplyAcceleration(int _xAcceleration, int _yAcceleration)
         {
+            int success = random.Next(5);
+            switch (success)
+            {
+                case 0:
+                    Console.WriteLine("FAILURE: 20% acceleration failure event.");
+                    return;
+                default:
+                    break;
+            }
+
             bool canApplyAcceleration = true;
 
             if (!new List<int> { 1, 0, -1 }.Contains(_xAcceleration))
