@@ -1,0 +1,26 @@
+﻿<Properties StartupConfiguration="{C0265DFC-E718-4E8A-8A54-8C342684070D}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RRL/State.cs">
+    <Files>
+      <File FileName="RRL/Program.cs" Line="1" Column="1" />
+      <File FileName="RRL/State.cs" Line="1" Column="14" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="RRL" expanded="True">
+            <Node name="RRL" expanded="True">
+              <Node name="State.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.RRL PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
