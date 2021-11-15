@@ -8,6 +8,8 @@ namespace RRL
         // Random class for implementing randomness
         Random random = new Random();
 
+        int time = 0;
+
         // X and Y location at current time
         int xtLocation;
         int ytLocation;
@@ -29,37 +31,29 @@ namespace RRL
             isFinishState = _isFinish;
         }
 
-        /// <summary>
-        /// Applies X and Y acceleration changes to this state.
-        /// </summary>
-        /// <param name="_xAcceleration"></param>
-        /// <param name="_yAcceleration"></param>
-        public void ApplyAcceleration(int _xAcceleration, int _yAcceleration)
+        public void TimeStep(int _xAcceleration, int _yAcceleration)
         {
-            int success = random.Next(5);
-            switch (success)
-            {
-                case 0:
-                    Console.WriteLine("FAILURE: 20% acceleration failure event.");
-                    return;
-                default:
-                    break;
-            }
+            Console.WriteLine("\nAt time step " + time + " an acceleration of (" + _xAcceleration + ", "
+                + _yAcceleration + ") is applied with current velocity (" + xtVelocity + ", " + ytVelocity + ")");
 
-            bool canApplyAcceleration = true;
+            // Apply the new acceleration
+            ApplyAcceleration(_xAcceleration, _yAcceleration);
 
-            if (!new List<int> { 1, 0, -1 }.Contains(_xAcceleration))
-                canApplyAcceleration = false;
-            if (!new List<int> { 1, 0, -1 }.Contains(_yAcceleration))
-                canApplyAcceleration = false;
+            // Adjust the current velocity
+            xtVelocity += _xAcceleration;
+            ytVelocity += _yAcceleration;
+            CheckVelocity();
 
-            if (canApplyAcceleration)
-            {
-                accelerationX += _xAcceleration;
-                accelerationY += _yAcceleration;
-            }
-            else
-                Console.WriteLine("ERROR @ ApplyAcceleration(): Invalid acceleration value change.");
+            // Update position
+            xtLocation += xtVelocity;
+            ytLocation += ytVelocity;
+
+            // Increment time step
+            time++;
+
+            Console.WriteLine("\nNew acceleration: (" + accelerationX + ", " + accelerationY + ")");
+            Console.WriteLine("New velocity: (" + xtVelocity + ", " + ytVelocity + ")");
+            Console.WriteLine("New time step: " + time);
         }
 
         /// <summary>
@@ -83,13 +77,40 @@ namespace RRL
         }
 
         /// <summary>
+        /// Returns the current position
+        /// </summary>
+        /// <returns></returns>
+        public Tuple<int, int> GetPosition()
+        {
+            return Tuple.Create(xtLocation, ytLocation);
+        }
+
+        /// <summary>
+        /// Returns current velocity
+        /// </summary>
+        /// <returns></returns>
+        public Tuple<int, int> GetVelocity()
+        {
+            return Tuple.Create(xtVelocity, ytVelocity);
+        }
+
+        /// <summary>
+        /// Returns current acceleration
+        /// </summary>
+        /// <returns></returns>
+        public Tuple<int, int> GetAcceleration()
+        {
+            return Tuple.Create(accelerationX, accelerationY);
+        }
+
+        /// <summary>
         /// Checks if a change in the X and Y velocities of the current state and returns true if valid.
         /// Returns false if the change is invalid.
         /// </summary>
         /// <param name="_xChange"></param>
         /// <param name="_yChange"></param>
         /// <returns></returns>
-        public bool CheckVelocity(int _xChange, int _yChange)
+        bool CheckVelocity(int _xChange, int _yChange)
         {
             bool hasValidVelocity = true;
 
@@ -109,7 +130,7 @@ namespace RRL
         /// Returns false and sets the values to their maximum if invalid.
         /// </summary>
         /// <returns></returns>
-        public bool CheckVelocity()
+        bool CheckVelocity()
         {
             bool hasValidVelocity = true;
 
@@ -139,6 +160,39 @@ namespace RRL
         {
             xtVelocity = 0;
             ytVelocity = 0;
+        }
+
+        /// <summary>
+        /// Applies X and Y acceleration changes to this state.
+        /// </summary>
+        /// <param name="_xAcceleration"></param>
+        /// <param name="_yAcceleration"></param>
+        void ApplyAcceleration(int _xAcceleration, int _yAcceleration)
+        {
+            int success = random.Next(5);
+            switch (success)
+            {
+                case 0:
+                    Console.WriteLine("FAILURE: 20% acceleration failure event.");
+                    return;
+                default:
+                    break;
+            }
+
+            bool canApplyAcceleration = true;
+
+            if (!new List<int> { 1, 0, -1 }.Contains(_xAcceleration))
+                canApplyAcceleration = false;
+            if (!new List<int> { 1, 0, -1 }.Contains(_yAcceleration))
+                canApplyAcceleration = false;
+
+            if (canApplyAcceleration)
+            {
+                accelerationX += _xAcceleration;
+                accelerationY += _yAcceleration;
+            }
+            else
+                Console.WriteLine("ERROR @ ApplyAcceleration(): Invalid acceleration value change.");
         }
     }
 }
