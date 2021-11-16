@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RRL
 {
-    public class State
+    public class Racecar
     {
         // Random class for implementing randomness
         Random random = new Random();
@@ -22,13 +22,8 @@ namespace RRL
         int accelerationX;
         int accelerationY;
 
-        bool isStartState;
-        bool isFinishState;
-
-        public State(bool _isStart, bool _isFinish)
+        public Racecar()
         {
-            isStartState = _isStart;
-            isFinishState = _isFinish;
         }
 
         public void TimeStep(int _xAcceleration, int _yAcceleration)
@@ -40,8 +35,8 @@ namespace RRL
             ApplyAcceleration(_xAcceleration, _yAcceleration);
 
             // Adjust the current velocity
-            xtVelocity += _xAcceleration;
-            ytVelocity += _yAcceleration;
+            xtVelocity += accelerationX;
+            ytVelocity += accelerationY;
             CheckVelocity();
 
             // Update position
@@ -54,26 +49,6 @@ namespace RRL
             Console.WriteLine("\nNew acceleration: (" + accelerationX + ", " + accelerationY + ")");
             Console.WriteLine("New velocity: (" + xtVelocity + ", " + ytVelocity + ")");
             Console.WriteLine("New time step: " + time);
-        }
-
-        /// <summary>
-        /// Returns true if this state is a start state.
-        /// Returns false if this state is not a start state.
-        /// </summary>
-        /// <returns></returns>
-        public bool IsStartState()
-        {
-            return isStartState;
-        }
-
-        /// <summary>
-        /// Returns true if this state is a finish state.
-        /// Returns false if this state is not a finish state.
-        /// </summary>
-        /// <returns></returns>
-        public bool IsFinishState()
-        {
-            return isFinishState;
         }
 
         /// <summary>
@@ -169,30 +144,41 @@ namespace RRL
         /// <param name="_yAcceleration"></param>
         void ApplyAcceleration(int _xAcceleration, int _yAcceleration)
         {
+            bool failedAcceleration = false;
             int success = random.Next(5);
             switch (success)
             {
                 case 0:
-                    Console.WriteLine("FAILURE: 20% acceleration failure event.");
-                    return;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("\nFAILURE: 20% acceleration failure event.");
+                    Console.ResetColor();
+                    failedAcceleration = true;
+                    break;
                 default:
                     break;
             }
 
-            bool canApplyAcceleration = true;
-
-            if (!new List<int> { 1, 0, -1 }.Contains(_xAcceleration))
-                canApplyAcceleration = false;
-            if (!new List<int> { 1, 0, -1 }.Contains(_yAcceleration))
-                canApplyAcceleration = false;
-
-            if (canApplyAcceleration)
+            if (!failedAcceleration)
             {
-                accelerationX += _xAcceleration;
-                accelerationY += _yAcceleration;
+                bool canApplyAcceleration = true;
+
+                if (!new List<int> { 1, 0, -1 }.Contains(_xAcceleration))
+                    canApplyAcceleration = false;
+                if (!new List<int> { 1, 0, -1 }.Contains(_yAcceleration))
+                    canApplyAcceleration = false;
+
+                if (canApplyAcceleration)
+                {
+                    accelerationX += _xAcceleration;
+                    accelerationY += _yAcceleration;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nERROR @ ApplyAcceleration(): Invalid acceleration value change.");
+                    Console.ResetColor();
+                }
             }
-            else
-                Console.WriteLine("ERROR @ ApplyAcceleration(): Invalid acceleration value change.");
         }
     }
 }

@@ -4,7 +4,7 @@ namespace RRL {
     class Program {
         static void Main(string[] args) {
             Console.WriteLine("Hello World!");
-            State testState = new State(false, false);
+            Racecar testState = new Racecar();
             testState.TimeStep(1, 1);
             testState.TimeStep(1, -1);
         }
