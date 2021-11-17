@@ -3,3 +3,5 @@
 /RRL/bin/
 /RRL/obj/
 /RRL/.idea/
+.DS_Store 
+/RRL/.DS_Store
